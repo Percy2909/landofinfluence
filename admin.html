@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Land of Influence CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --surface: #111111;
+      --surface2: #181818;
+      --border: rgba(255,255,255,0.08);
+      --white: #ffffff;
+      --accent: #c8f060;
+      --accent-dim: rgba(200,240,96,0.1);
+      --red: #ff5c5c;
+      --red-dim: rgba(255,92,92,0.1);
+      --gray: rgba(255,255,255,0.4);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .login-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 56px 48px; width: 100%; max-width: 420px;
+      text-align: center;
+    }
+    .login-logo { height: 36px; margin: 0 auto 32px; }
+    .login-box h2 {
+      font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .login-box p { font-size: 14px; color: var(--gray); margin-bottom: 32px; }
+    .login-input {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
+      padding: 14px 16px; outline: none; margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--accent); }
+    .login-btn {
+      width: 100%; background: var(--accent); color: var(--black);
+      font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+      letter-spacing: 0.04em; padding: 15px; border-radius: 100px;
+      border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.85; }
+    .login-error {
+      color: var(--red); font-size: 13px; margin-top: 12px;
+      display: none;
+    }
+
+    /* ── APP SHELL ── */
+    #appShell { display: none; min-height: 100vh; }
+
+    /* Topbar */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 60px;
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 12px; }
+    .topbar-brand img { height: 28px; }
+    .topbar-badge {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--accent-dim); color: var(--accent);
+      padding: 4px 10px; border-radius: 100px; border: 1px solid rgba(200,240,96,0.2);
+    }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .topbar-link {
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--gray); transition: color 0.2s;
+    }
+    .topbar-link:hover { color: var(--white); }
+    .logout-btn {
+      font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--black); background: var(--accent);
+      padding: 8px 18px; border-radius: 100px; border: none; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .logout-btn:hover { opacity: 0.85; }
+
+    /* Main layout */
+    .main { padding: 80px 32px 60px; max-width: 1200px; margin: 0 auto; }
+
+    /* Page header */
+    .page-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px; flex-wrap: wrap; gap: 16px;
+    }
+    .page-header h1 {
+      font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+    }
+    .page-header p { font-size: 14px; color: var(--gray); margin-top: 4px; }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 36px; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px;
+    }
+    .stat-card-label { font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+    .stat-card-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); }
+
+    /* Add project btn */
+    .btn-add {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+      letter-spacing: 0.04em; color: var(--black); background: var(--accent);
+      padding: 12px 24px; border-radius: 100px; border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-add:hover { opacity: 0.85; transform: scale(1.02); }
+
+    /* Projects table */
+    .table-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .table-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+    }
+    .table-toolbar h2 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+    .search-input {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 14px; padding: 9px 14px; outline: none; width: 220px;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--gray); }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid var(--border); }
+    thead th {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray);
+      padding: 14px 20px; text-align: left;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border); transition: background 0.2s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody td { padding: 16px 20px; font-size: 14px; vertical-align: middle; }
+
+    .project-thumb {
+      width: 52px; height: 52px; border-radius: 8px; object-fit: cover;
+      background: #222; flex-shrink: 0;
+    }
+    .project-thumb-placeholder {
+      width: 52px; height: 52px; border-radius: 8px;
+      background: #1e1e1e; border: 1px dashed var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+    }
+    .project-info { display: flex; align-items: center; gap: 14px; }
+    .project-title-cell { font-weight: 500; margin-bottom: 3px; }
+    .project-desc-cell { font-size: 12px; color: var(--gray); max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .tag-badge {
+      display: inline-block; font-family: 'Syne', sans-serif; font-size: 10px;
+      font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px; background: var(--accent-dim);
+      color: var(--accent); border: 1px solid rgba(200,240,96,0.2);
+    }
+    .tag-badge.red { background: var(--red-dim); color: var(--red); border-color: rgba(255,92,92,0.2); }
+    .tag-badge.blue { background: rgba(96,160,240,0.1); color: #60a0f0; border-color: rgba(96,160,240,0.2); }
+    .tag-badge.purple { background: rgba(180,96,240,0.1); color: #b460f0; border-color: rgba(180,96,240,0.2); }
+
+    .action-btns { display: flex; gap: 8px; }
+    .btn-edit, .btn-delete {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; padding: 7px 14px; border-radius: 8px;
+      border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-edit { background: rgba(255,255,255,0.07); color: var(--white); }
+    .btn-edit:hover { background: rgba(255,255,255,0.12); }
+    .btn-delete { background: var(--red-dim); color: var(--red); }
+    .btn-delete:hover { background: rgba(255,92,92,0.2); }
+
+    .empty-state {
+      text-align: center; padding: 72px 24px;
+      color: var(--gray);
+    }
+    .empty-state .empty-icon { font-size: 40px; margin-bottom: 16px; }
+    .empty-state h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 28px; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--surface); z-index: 1;
+    }
+    .modal-header h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; letter-spacing: -0.01em; }
+    .modal-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.07); border: none; cursor: pointer;
+      color: var(--white); font-size: 16px; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.14); }
+    .modal-body { padding: 28px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 10px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
+      padding: 13px 16px; outline: none; transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group select option { background: #1a1a1a; }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Image upload */
+    .img-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px;
+      padding: 32px; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .img-upload-area:hover { border-color: var(--accent); background: var(--accent-dim); }
+    .img-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; border: none; padding: 0;
+    }
+    .img-upload-icon { font-size: 32px; margin-bottom: 12px; }
+    .img-upload-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+    .img-upload-hint { font-size: 12px; color: var(--gray); }
+    .img-preview-wrap { position: relative; display: inline-block; }
+    .img-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: 10px; display: none; }
+    .img-preview.show { display: block; }
+    .img-remove-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.7); color: var(--white); border: none;
+      border-radius: 50%; width: 28px; height: 28px; cursor: pointer;
+      font-size: 14px; display: none; align-items: center; justify-content: center;
+    }
+    .img-remove-btn.show { display: flex; }
+
+    .modal-footer {
+      display: flex; gap: 12px; justify-content: flex-end;
+      padding: 20px 28px; border-top: 1px solid var(--border);
+    }
+    .btn-cancel {
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+      padding: 12px 24px; border-radius: 100px; border: 1px solid var(--border);
+      background: transparent; color: var(--white); cursor: pointer; transition: background 0.2s;
+    }
+    .btn-cancel:hover { background: rgba(255,255,255,0.06); }
+    .btn-save {
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+      padding: 12px 28px; border-radius: 100px; border: none;
+      background: var(--accent); color: var(--black); cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-save:hover { opacity: 0.85; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; z-index: 999;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 20px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; font-weight: 500;
+      transform: translateY(80px); opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 18px; }
+
+    /* Delete confirm */
+    .confirm-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    .confirm-overlay.open { display: flex; }
+    .confirm-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 36px; max-width: 380px; text-align: center;
+      animation: slideUp 0.25s ease;
+    }
+    .confirm-box .confirm-icon { font-size: 36px; margin-bottom: 16px; }
+    .confirm-box h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+    .confirm-box p { font-size: 14px; color: var(--gray); margin-bottom: 28px; line-height: 1.6; }
+    .confirm-btns { display: flex; gap: 12px; justify-content: center; }
+    .btn-confirm-delete {
+      font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+      padding: 12px 28px; border-radius: 100px; border: none;
+      background: var(--red); color: var(--white); cursor: pointer;
+    }
+
+    @media(max-width:700px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .main { padding: 72px 16px 48px; }
+      thead th:nth-child(3), tbody td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <img class="login-logo" src="https://framerusercontent.com/images/wNCoqqxRUbwaSRavx7i0xZiAo.png?width=291" alt="Land of Influence" />
+    <h2>Admin Panel</h2>
+    <p>Enter your password to manage projects</p>
+    <input class="login-input" type="password" id="passwordInput" placeholder="Password" onkeydown="if(event.key==='Enter')login()" />
+    <button class="login-btn" onclick="login()">Sign In →</button>
+    <p class="login-error" id="loginError">Incorrect password. Try again.</p>
+    <p style="font-size:12px;color:rgba(255,255,255,0.2);margin-top:20px;">Default password: <strong style="color:rgba(255,255,255,0.4)">admin123</strong></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appShell">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="https://framerusercontent.com/images/wNCoqqxRUbwaSRavx7i0xZiAo.png?width=291" alt="LOI" />
+      <span class="topbar-badge">CMS</span>
+    </div>
+    <div class="topbar-right">
+      <a href="work.html" target="_blank" class="topbar-link">View Site ↗</a>
+      <button class="logout-btn" onclick="logout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="page-header">
+      <div>
+        <h1>Projects</h1>
+        <p>Manage the projects shown on your Our Work page</p>
+      </div>
+      <button class="btn-add" onclick="openModal()">+ Add Project</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-label">Total Projects</div>
+        <div class="stat-card-value" id="statTotal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">With Images</div>
+        <div class="stat-card-value" id="statImages">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Categories</div>
+        <div class="stat-card-value" id="statCats">0</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="table-toolbar">
+        <h2>All Projects</h2>
+        <input class="search-input" type="text" placeholder="Search projects…" oninput="renderTable(this.value)" />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Tag</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="projectsTableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon">📁</div>
+        <h3>No projects yet</h3>
+        <p>Click "Add Project" to create your first one.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Add Project</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId" />
+
+      <div class="form-group">
+        <label>Project Image</label>
+        <div class="img-upload-area" id="uploadArea">
+          <input type="file" accept="image/*" onchange="handleImageUpload(event)" />
+          <div id="uploadPlaceholder">
+            <div class="img-upload-icon">🖼️</div>
+            <div class="img-upload-label">Click or drag to upload image</div>
+            <div class="img-upload-hint">JPG, PNG, WEBP — max 5MB</div>
+          </div>
+          <div class="img-preview-wrap" id="previewWrap" style="display:none;">
+            <img id="imgPreview" class="img-preview show" src="" alt="Preview" />
+            <button class="img-remove-btn show" onclick="removeImage(event)">✕</button>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label style="margin-bottom:6px;">Or paste an image URL</label>
+          <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg" oninput="handleUrlInput(this.value)" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Project Title *</label>
+          <input type="text" id="projectTitle" placeholder="e.g. Pranamat Campaign" />
+        </div>
+        <div class="form-group">
+          <label>Tag / Category *</label>
+          <select id="projectTag">
+            <option value="">Select tag…</option>
+            <option>Influencer Marketing</option>
+            <option>The Box</option>
+            <option>Growth Marketing</option>
+            <option>Brand Partnership</option>
+            <option>E-Commerce</option>
+            <option>Social Media</option>
+            <option>Content Creation</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description *</label>
+        <textarea id="projectDesc" placeholder="Brief description of the project and results…"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Client / Brand</label>
+          <input type="text" id="projectClient" placeholder="e.g. Pranamat®" />
+        </div>
+        <div class="form-group">
+          <label>Year</label>
+          <input type="text" id="projectYear" placeholder="e.g. 2025" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Case Study Link (optional)</label>
+        <input type="text" id="projectLink" placeholder="https://… or leave blank" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProject()">Save Project →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <h3>Delete Project?</h3>
+    <p>This will permanently remove the project from your site. This cannot be undone.</p>
+    <div class="confirm-btns">
+      <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm-delete" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✓</span>
+  <span id="toastMsg">Saved!</span>
+</div>
+
+<script>
+  // ── AUTH ──
+  const PASSWORD = 'admin123';
+  let isLoggedIn = false;
+
+  function login() {
+    const val = document.getElementById('passwordInput').value;
+    if (val === PASSWORD) {
+      isLoggedIn = true;
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appShell').style.display = 'block';
+      loadProjects();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+    }
+  }
+  function logout() {
+    isLoggedIn = false;
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appShell').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+  }
+
+  // ── DATA (localStorage) ──
+  const STORAGE_KEY = 'loi_projects';
+
+  function getProjects() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || getDefaultProjects(); }
+    catch { return getDefaultProjects(); }
+  }
+  function saveProjects(projects) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+  }
+  function getDefaultProjects() {
+    return [
+      {
+        id: 'proj_1',
+        title: 'Pranamat® | Hurts So Good',
+        tag: 'The Box',
+        description: 'We activated 25 wellness influencers, creating a wave of authentic unboxing content across Instagram and TikTok.',
+        client: 'Pranamat®',
+        year: '2024',
+        image: 'https://framerusercontent.com/images/P8kop1sl3FRkOgq3mGN8S3GWWNU.png?width=1141',
+        link: ''
+      },
+      {
+        id: 'proj_2',
+        title: 'Campaign 01',
+        tag: 'Influencer Marketing',
+        description: 'Strategic influencer campaign driving brand awareness and measurable engagement.',
+        client: '',
+        year: '2024',
+        image: 'https://framerusercontent.com/images/hGFPg0LpyASaz5XNrZZDMCmm6kE.jpg?width=1024',
+        link: ''
+      },
+      {
+        id: 'proj_3',
+        title: 'Campaign 02',
+        tag: 'Growth Marketing',
+        description: 'Full-funnel growth strategy from acquisition to retention with measurable ROI.',
+        client: '',
+        year: '2024',
+        image: 'https://framerusercontent.com/images/c8QzXHBgbO9JdvA2eibnDRkCnPg.jpg?width=1024',
+        link: ''
+      }
+    ];
+  }
+
+  // ── RENDER ──
+  function loadProjects() {
+    renderTable('');
+    updateStats();
+  }
+
+  function updateStats() {
+    const projects = getProjects();
+    document.getElementById('statTotal').textContent = projects.length;
+    document.getElementById('statImages').textContent = projects.filter(p => p.image).length;
+    const cats = new Set(projects.map(p => p.tag).filter(Boolean));
+    document.getElementById('statCats').textContent = cats.size;
+  }
+
+  const TAG_COLORS = {
+    'The Box': '',
+    'Influencer Marketing': 'blue',
+    'Growth Marketing': 'purple',
+    'Brand Partnership': '',
+    'E-Commerce': 'blue',
+    'Social Media': 'purple',
+    'Content Creation': '',
+  };
+
+  function renderTable(search = '') {
+    const projects = getProjects();
+    const filtered = search
+      ? projects.filter(p =>
+          p.title.toLowerCase().includes(search.toLowerCase()) ||
+          p.tag.toLowerCase().includes(search.toLowerCase()) ||
+          p.description.toLowerCase().includes(search.toLowerCase())
+        )
+      : projects;
+
+    const tbody = document.getElementById('projectsTableBody');
+    const empty = document.getElementById('emptyState');
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    tbody.innerHTML = filtered.map(p => {
+      const tagColor = TAG_COLORS[p.tag] || '';
+      const thumb = p.image
+        ? `<img class="project-thumb" src="${p.image}" alt="${p.title}" onerror="this.style.display='none'" />`
+        : `<div class="project-thumb-placeholder">🖼️</div>`;
+      return `
+        <tr>
+          <td>
+            <div class="project-info">
+              ${thumb}
+              <div>
+                <div class="project-title-cell">${p.title}</div>
+                <div class="project-desc-cell">${p.client ? p.client + (p.year ? ' · ' + p.year : '') : (p.year || '—')}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="tag-badge ${tagColor}">${p.tag || '—'}</span></td>
+          <td><span class="project-desc-cell" style="max-width:260px;display:block;">${p.description || '—'}</span></td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-edit" onclick="editProject('${p.id}')">Edit</button>
+              <button class="btn-delete" onclick="askDelete('${p.id}')">Delete</button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  // ── MODAL ──
+  let currentImageData = null;
+
+  function openModal(id = null) {
+    clearForm();
+    document.getElementById('editId').value = id || '';
+    document.getElementById('modalTitle').textContent = id ? 'Edit Project' : 'Add Project';
+    if (id) {
+      const project = getProjects().find(p => p.id === id);
+      if (project) {
+        document.getElementById('projectTitle').value = project.title || '';
+        document.getElementById('projectTag').value = project.tag || '';
+        document.getElementById('projectDesc').value = project.description || '';
+        document.getElementById('projectClient').value = project.client || '';
+        document.getElementById('projectYear').value = project.year || '';
+        document.getElementById('projectLink').value = project.link || '';
+        document.getElementById('imageUrl').value = project.image || '';
+        if (project.image) showPreview(project.image);
+        currentImageData = project.image || null;
+      }
+    }
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function editProject(id) { openModal(id); }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    clearForm();
+  }
+
+  function clearForm() {
+    ['projectTitle','projectTag','projectDesc','projectClient','projectYear','projectLink','imageUrl','editId']
+      .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+    currentImageData = null;
+    hidePreview();
+  }
+
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { showToast('Image too large (max 5MB)', '⚠️'); return; }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      currentImageData = ev.target.result;
+      document.getElementById('imageUrl').value = '';
+      showPreview(ev.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleUrlInput(url) {
+    if (url) {
+      currentImageData = url;
+      showPreview(url);
+    } else {
+      currentImageData = null;
+      hidePreview();
+    }
+  }
+
+  function showPreview(src) {
+    document.getElementById('uploadPlaceholder').style.display = 'none';
+    document.getElementById('previewWrap').style.display = 'block';
+    document.getElementById('imgPreview').src = src;
+  }
+
+  function hidePreview() {
+    document.getElementById('uploadPlaceholder').style.display = 'block';
+    document.getElementById('previewWrap').style.display = 'none';
+    document.getElementById('imgPreview').src = '';
+  }
+
+  function removeImage(e) {
+    e.stopPropagation();
+    currentImageData = null;
+    document.getElementById('imageUrl').value = '';
+    hidePreview();
+  }
+
+  function saveProject() {
+    const title = document.getElementById('projectTitle').value.trim();
+    const tag = document.getElementById('projectTag').value;
+    const desc = document.getElementById('projectDesc').value.trim();
+    if (!title) { showToast('Please enter a project title', '⚠️'); return; }
+    if (!tag) { showToast('Please select a tag', '⚠️'); return; }
+
+    const projects = getProjects();
+    const editId = document.getElementById('editId').value;
+    const imageVal = currentImageData || document.getElementById('imageUrl').value.trim();
+
+    const projectData = {
+      id: editId || 'proj_' + Date.now(),
+      title,
+      tag,
+      description: desc,
+      client: document.getElementById('projectClient').value.trim(),
+      year: document.getElementById('projectYear').value.trim(),
+      image: imageVal,
+      link: document.getElementById('projectLink').value.trim(),
+    };
+
+    if (editId) {
+      const idx = projects.findIndex(p => p.id === editId);
+      if (idx !== -1) projects[idx] = projectData;
+    } else {
+      projects.push(projectData);
+    }
+
+    saveProjects(projects);
+    closeModal();
+    loadProjects();
+    showToast(editId ? 'Project updated!' : 'Project added!', '✦');
+  }
+
+  // ── DELETE ──
+  let deleteTargetId = null;
+
+  function askDelete(id) {
+    deleteTargetId = id;
+    document.getElementById('confirmOverlay').classList.add('open');
+  }
+  function closeConfirm() {
+    deleteTargetId = null;
+    document.getElementById('confirmOverlay').classList.remove('open');
+  }
+  function confirmDelete() {
+    if (!deleteTargetId) return;
+    const projects = getProjects().filter(p => p.id !== deleteTargetId);
+    saveProjects(projects);
+    closeConfirm();
+    loadProjects();
+    showToast('Project deleted', '🗑️');
+  }
+
+  // ── TOAST ──
+  let toastTimer;
+  function showToast(msg, icon = '✓') {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    document.getElementById('toastIcon').textContent = icon;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.getElementById('confirmOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeConfirm();
+  });
+</script>
+</body>
+</html>

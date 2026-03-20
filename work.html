@@ -6,50 +6,99 @@
   <title>Our Work — Land of Influence</title>
   <link rel="stylesheet" href="shared.css" />
   <style>
-    .work-hero-img {
-      width: 100%; border-radius: 16px; overflow: hidden;
-      margin: 48px 0; max-height: 520px;
+    .work-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:48px; }
+    .filter-btn {
+      font-family:'Syne',sans-serif; font-size:12px; font-weight:700;
+      letter-spacing:0.08em; text-transform:uppercase;
+      padding:9px 20px; border-radius:100px;
+      border:1px solid var(--border); background:transparent;
+      color:rgba(255,255,255,0.5); cursor:pointer; transition:all 0.2s;
     }
-    .work-hero-img img { width: 100%; height: 100%; object-fit: cover; }
-    .work-tag {
-      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35); margin-bottom: 8px;
-    }
-    .work-grid {
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 64px;
-    }
+    .filter-btn:hover { border-color:rgba(255,255,255,0.3); color:var(--white); }
+    .filter-btn.active { background:var(--accent); color:var(--black); border-color:var(--accent); }
+
+    .work-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
     .work-card {
-      background: #111; border-radius: 12px; overflow: hidden;
-      transition: transform 0.3s; cursor: pointer;
+      background:#111; border-radius:14px; overflow:hidden;
+      transition:transform 0.3s, box-shadow 0.3s;
+      border:1px solid var(--border);
     }
-    .work-card:hover { transform: translateY(-4px); }
-    .work-card-img { aspect-ratio: 3/4; overflow: hidden; }
-    .work-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-    .work-card:hover .work-card-img img { transform: scale(1.05); }
-    .work-card-body { padding: 24px; }
+    .work-card:hover { transform:translateY(-5px); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+    .work-card-img { aspect-ratio:3/4; overflow:hidden; }
+    .work-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
+    .work-card:hover .work-card-img img { transform:scale(1.06); }
+    .work-card-img-placeholder {
+      width:100%; height:100%; background:#1a1a1a;
+      display:flex; align-items:center; justify-content:center;
+      font-size:40px; color:rgba(255,255,255,0.1);
+    }
+    .work-card-body { padding:24px; }
     .work-card-tag {
-      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 8px;
+      font-family:'Syne',sans-serif; font-size:10px; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;
     }
     .work-card-title {
-      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;
-      letter-spacing: -0.01em; margin-bottom: 8px;
+      font-family:'Syne',sans-serif; font-size:18px; font-weight:700;
+      letter-spacing:-0.01em; margin-bottom:8px; line-height:1.2;
     }
-    .work-card-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.6; }
-    .featured-case {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
-      align-items: center; padding: 80px; background: #111; border-radius: 20px; margin-top: 32px;
+    .work-card-desc {
+      font-size:14px; font-weight:300; color:rgba(255,255,255,0.45); line-height:1.65; margin-bottom:16px;
     }
-    .featured-case img { width: 100%; border-radius: 10px; object-fit: cover; }
-    .featured-case h3 { font-family: 'Syne',sans-serif; font-size: 32px; font-weight: 800; letter-spacing:-0.02em; margin-bottom: 16px; }
-    .featured-case p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.5); line-height:1.75; margin-bottom: 28px; }
+    .work-card-meta {
+      display:flex; align-items:center; justify-content:space-between;
+      font-size:12px; color:rgba(255,255,255,0.3);
+    }
+    .work-card-link {
+      font-family:'Syne',sans-serif; font-size:12px; font-weight:700;
+      letter-spacing:0.06em; color:var(--accent);
+      display:inline-flex; align-items:center; gap:6px; transition:gap 0.2s;
+    }
+    .work-card-link:hover { gap:10px; }
+
+    .featured-banner {
+      background:#111; border:1px solid var(--border);
+      border-radius:20px; overflow:hidden;
+      display:grid; grid-template-columns:1fr 1fr;
+      margin-bottom:32px;
+    }
+    .featured-banner-img { overflow:hidden; }
+    .featured-banner-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.6s; }
+    .featured-banner:hover .featured-banner-img img { transform:scale(1.03); }
+    .featured-banner-body {
+      padding:52px 48px; display:flex; flex-direction:column; justify-content:center;
+    }
+    .featured-tag {
+      font-family:'Syne',sans-serif; font-size:10px; font-weight:700;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:14px;
+    }
+    .featured-banner-body h2 {
+      font-family:'Syne',sans-serif; font-size:clamp(22px,3vw,36px);
+      font-weight:800; letter-spacing:-0.02em; line-height:1.1; margin-bottom:14px;
+    }
+    .featured-banner-body p {
+      font-size:15px; font-weight:300; color:rgba(255,255,255,0.5); line-height:1.75; margin-bottom:28px;
+    }
+
+    .empty-work {
+      grid-column:1/-1; text-align:center; padding:80px 24px; color:rgba(255,255,255,0.3);
+    }
+    .empty-work h3 { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+
+    .manage-btn {
+      font-family:'Syne',sans-serif; font-size:12px; font-weight:700;
+      letter-spacing:0.08em; text-transform:uppercase;
+      color:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.1);
+      padding:9px 18px; border-radius:100px; transition:all 0.2s;
+    }
+    .manage-btn:hover { color:var(--white); border-color:rgba(255,255,255,0.3); }
+
     @media(max-width:900px){
-      .work-grid{ grid-template-columns: 1fr 1fr; }
-      .featured-case{ grid-template-columns:1fr; padding: 36px; gap: 32px; }
+      .work-grid { grid-template-columns:1fr 1fr; }
+      .featured-banner { grid-template-columns:1fr; }
+      .featured-banner-img { aspect-ratio:16/9; }
+      .featured-banner-body { padding:32px; }
     }
-    @media(max-width:560px){ .work-grid{grid-template-columns:1fr;} }
+    @media(max-width:560px){ .work-grid { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -63,66 +112,25 @@
     </div>
   </div>
 
-  <!-- FEATURED CASE STUDY -->
-  <section class="fade-up">
-    <p class="section-label">Featured Project</p>
-    <h2 class="section-title">Pranamat® | Hurts So Good</h2>
-    <div class="featured-case" style="margin-top:40px;">
-      <img src="https://framerusercontent.com/images/P8kop1sl3FRkOgq3mGN8S3GWWNU.png?width=1141" alt="Pranamat campaign" />
+  <section>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
       <div>
-        <p class="work-tag">Influencer Campaign · The Box</p>
-        <h3>Bringing Pranamat to a new generation of wellness buyers</h3>
-        <p>We activated 25 carefully selected wellness and lifestyle influencers, each receiving a beautifully packaged Pranamat set. The simultaneous launch created a wave of authentic unboxing content across Instagram and TikTok, resulting in a major spike in brand awareness and direct sales.</p>
-        <a href="contact.html" class="btn-primary">Request a Case Study →</a>
+        <p class="section-label">Portfolio</p>
+        <h2 class="section-title">All Projects</h2>
       </div>
+      <a href="admin.html" class="manage-btn">⚙ Manage Projects</a>
     </div>
+
+    <div class="work-filters" id="filtersRow">
+      <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+    </div>
+
+    <div id="featuredWrap"></div>
+    <div class="work-grid fade-up" id="workGrid"></div>
   </section>
 
-  <!-- WORK GRID -->
-  <section class="fade-up" style="padding-top:0;">
-    <p class="section-label">All Projects</p>
-    <h2 class="section-title">More of Our Work</h2>
-    <div class="work-grid">
-      <div class="work-card">
-        <div class="work-card-img">
-          <img src="https://framerusercontent.com/images/hGFPg0LpyASaz5XNrZZDMCmm6kE.jpg?width=1024" alt="Campaign" />
-        </div>
-        <div class="work-card-body">
-          <p class="work-card-tag">Influencer Marketing</p>
-          <h3 class="work-card-title">Campaign 01</h3>
-          <p class="work-card-desc">Strategic influencer campaign driving brand awareness and engagement.</p>
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-img">
-          <img src="https://framerusercontent.com/images/c8QzXHBgbO9JdvA2eibnDRkCnPg.jpg?width=1024" alt="Campaign" />
-        </div>
-        <div class="work-card-body">
-          <p class="work-card-tag">The Box</p>
-          <h3 class="work-card-title">Campaign 02</h3>
-          <p class="work-card-desc">Multi-platform unboxing activation with 25 curated creators.</p>
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-card-img">
-          <img src="https://framerusercontent.com/images/e314bE9OJglNpn13Zkw5oNH3Nc.jpg?width=800" alt="Campaign" />
-        </div>
-        <div class="work-card-body">
-          <p class="work-card-tag">Growth Marketing</p>
-          <h3 class="work-card-title">Campaign 03</h3>
-          <p class="work-card-desc">Full-funnel growth strategy from acquisition to retention.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BRANDS -->
   <div id="brands"></div>
-
-  <!-- CTA -->
   <div id="ctaBanner"></div>
-
-  <!-- FOOTER -->
   <div id="footer"></div>
 
   <script src="shared.js"></script>
@@ -130,7 +138,96 @@
     document.getElementById('brands').innerHTML = BRANDS_HTML;
     document.getElementById('ctaBanner').innerHTML = CTA_BANNER_HTML;
     document.getElementById('footer').innerHTML = FOOTER_HTML;
-    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+
+    const STORAGE_KEY = 'loi_projects';
+    let activeFilter = 'all';
+
+    function getProjects() {
+      try {
+        const s = localStorage.getItem(STORAGE_KEY);
+        if (s) return JSON.parse(s);
+      } catch {}
+      return [
+        { id:'proj_1', title:'Pranamat® | Hurts So Good', tag:'The Box', description:'We activated 25 wellness influencers, creating a wave of authentic unboxing content across Instagram and TikTok.', client:'Pranamat®', year:'2024', image:'https://framerusercontent.com/images/P8kop1sl3FRkOgq3mGN8S3GWWNU.png?width=1141', link:'' },
+        { id:'proj_2', title:'Campaign 01', tag:'Influencer Marketing', description:'Strategic influencer campaign driving brand awareness and measurable engagement.', client:'', year:'2024', image:'https://framerusercontent.com/images/hGFPg0LpyASaz5XNrZZDMCmm6kE.jpg?width=1024', link:'' },
+        { id:'proj_3', title:'Campaign 02', tag:'Growth Marketing', description:'Full-funnel growth strategy from acquisition to retention with measurable ROI.', client:'', year:'2024', image:'https://framerusercontent.com/images/c8QzXHBgbO9JdvA2eibnDRkCnPg.jpg?width=1024', link:'' }
+      ];
+    }
+
+    function buildFilters(projects) {
+      const tags = [...new Set(projects.map(p => p.tag).filter(Boolean))];
+      const row = document.getElementById('filtersRow');
+      row.innerHTML = `<button class="filter-btn ${activeFilter==='all'?'active':''}" onclick="filterProjects('all',this)">All</button>`;
+      tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (activeFilter===tag?' active':'');
+        btn.textContent = tag;
+        btn.onclick = function(){ filterProjects(tag,this); };
+        row.appendChild(btn);
+      });
+    }
+
+    function filterProjects(tag, btn) {
+      activeFilter = tag;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProjects();
+    }
+
+    function renderProjects() {
+      const all = getProjects();
+      const filtered = activeFilter==='all' ? all : all.filter(p => p.tag===activeFilter);
+
+      const featuredWrap = document.getElementById('featuredWrap');
+      if (activeFilter==='all' && filtered.length>0) {
+        const f = filtered[0];
+        featuredWrap.innerHTML = `
+          <div class="featured-banner fade-up">
+            <div class="featured-banner-img">
+              ${f.image ? `<img src="${f.image}" alt="${f.title}" />` : `<div style="background:#1a1a1a;height:280px;display:flex;align-items:center;justify-content:center;font-size:48px;">🖼️</div>`}
+            </div>
+            <div class="featured-banner-body">
+              <p class="featured-tag">✦ Featured Project</p>
+              ${f.tag ? `<p style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:12px;">${f.tag}</p>` : ''}
+              <h2>${f.title}</h2>
+              <p>${f.description||''}</p>
+              ${(f.client||f.year) ? `<p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:-14px;margin-bottom:24px;">${[f.client,f.year].filter(Boolean).join(' · ')}</p>` : ''}
+              <a href="${f.link||'contact.html'}" class="btn-primary" style="align-self:flex-start;">${f.link?'View Case Study →':'Work With Us →'}</a>
+            </div>
+          </div>`;
+      } else {
+        featuredWrap.innerHTML = '';
+      }
+
+      const gridItems = activeFilter==='all' ? filtered.slice(1) : filtered;
+      const grid = document.getElementById('workGrid');
+
+      if (gridItems.length===0) {
+        grid.innerHTML = `<div class="empty-work"><h3>No projects in this category yet</h3><p>Add projects from the <a href="admin.html" style="color:var(--accent)">admin panel</a>.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = gridItems.map(p => `
+        <div class="work-card">
+          <div class="work-card-img">
+            ${p.image ? `<img src="${p.image}" alt="${p.title}" />` : `<div class="work-card-img-placeholder">🖼️</div>`}
+          </div>
+          <div class="work-card-body">
+            ${p.tag ? `<p class="work-card-tag">${p.tag}</p>` : ''}
+            <h3 class="work-card-title">${p.title}</h3>
+            ${p.description ? `<p class="work-card-desc">${p.description}</p>` : ''}
+            <div class="work-card-meta">
+              <span>${[p.client,p.year].filter(Boolean).join(' · ')||''}</span>
+              ${p.link ? `<a href="${p.link}" class="work-card-link" target="_blank">Case Study →</a>` : ''}
+            </div>
+          </div>
+        </div>`).join('');
+
+      setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+    }
+
+    buildFilters(getProjects());
+    renderProjects();
   </script>
 </body>
 </html>
