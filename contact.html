@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Land of Influence</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-family: 'Syne', sans-serif; font-size: clamp(36px,5vw,64px);
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px;
+    }
+    .contact-info p { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 40px; max-width: 420px; }
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+    .contact-link-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 24px; background: #111; border-radius: 12px;
+      border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-link-item:hover { border-color: var(--accent); background: #161616; }
+    .contact-link-icon {
+      width: 40px; height: 40px; border-radius: 50%; background: rgba(200,240,96,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--accent);
+      flex-shrink: 0;
+    }
+    .contact-link-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 4px; }
+    .contact-link-value { font-size: 15px; font-weight: 400; color: var(--white); }
+    .contact-form { background: #111; border-radius: 20px; padding: 48px; border: 1px solid var(--border); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 15px;
+      padding: 14px 16px; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent); background: rgba(200,240,96,0.04);
+    }
+    .form-group select option { background: #1a1a1a; }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-submit {
+      width: 100%; margin-top: 8px;
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+      letter-spacing: 0.04em; color: var(--black); background: var(--accent);
+      padding: 18px 36px; border-radius: 100px; border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+    .form-note { font-size: 12px; color: rgba(255,255,255,0.28); margin-top: 16px; text-align: center; line-height: 1.5; }
+    .success-msg { display: none; text-align: center; padding: 24px; }
+    .success-msg h3 { font-family: 'Syne',sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .success-msg p { font-size: 15px; color: rgba(255,255,255,0.5); }
+    @media(max-width:900px){ .contact-layout{grid-template-columns:1fr; gap:48px;} .form-row{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+  <section style="padding-top:140px;">
+    <div class="contact-layout fade-up">
+      <!-- LEFT: INFO -->
+      <div class="contact-info">
+        <p class="section-label">Get In Touch</p>
+        <h2>Let's chat.</h2>
+        <p>We're here to help. Ask questions about our product, team, partnerships, or feedback.</p>
+
+        <div class="contact-links">
+          <a href="https://calendly.com/cuba-percy/30min" target="_blank" class="contact-link-item">
+            <div class="contact-link-icon">→</div>
+            <div>
+              <p class="contact-link-label">Book a Call</p>
+              <p class="contact-link-value">Schedule directly on Calendly</p>
+            </div>
+          </a>
+          <a href="mailto:info@landofinfluence.com" class="contact-link-item">
+            <div class="contact-link-icon">@</div>
+            <div>
+              <p class="contact-link-label">Email</p>
+              <p class="contact-link-value">info@landofinfluence.com</p>
+            </div>
+          </a>
+          <a href="index.html" class="contact-link-item">
+            <div class="contact-link-icon">⌂</div>
+            <div>
+              <p class="contact-link-label">Home</p>
+              <p class="contact-link-value">Go back to our home page</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM -->
+      <div class="contact-form">
+        <div id="formWrap">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="fname" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label>Company</label>
+              <input type="text" id="fcompany" placeholder="Your company" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="femail" placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label>Telephone</label>
+              <input type="tel" id="fphone" placeholder="+1 234 567 890" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>I'm Looking For</label>
+            <select id="ftype">
+              <option value="">Select…</option>
+              <option>The Box</option>
+              <option>Influencer Collaboration</option>
+              <option>Talent Representation</option>
+              <option>Marketing Growth</option>
+              <option>Social Events</option>
+              <option>Other Inquiries</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>How Can We Help?</label>
+            <textarea id="fmessage" placeholder="Tell us about your brand and goals…"></textarea>
+          </div>
+          <button class="form-submit" onclick="submitForm()">Submit →</button>
+          <p class="form-note">By submitting this form I agree that Land of Influence may collect, process and retain my data.</p>
+        </div>
+        <div class="success-msg" id="successMsg">
+          <h3>Message sent! ✦</h3>
+          <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands"></div>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('brands').innerHTML = BRANDS_HTML;
+    document.getElementById('footer').innerHTML = FOOTER_HTML;
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+
+    function submitForm() {
+      const name = document.getElementById('fname').value;
+      const email = document.getElementById('femail').value;
+      if (!name || !email) { alert('Please fill in your name and email.'); return; }
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

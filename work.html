@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Work — Land of Influence</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .work-hero-img {
+      width: 100%; border-radius: 16px; overflow: hidden;
+      margin: 48px 0; max-height: 520px;
+    }
+    .work-hero-img img { width: 100%; height: 100%; object-fit: cover; }
+    .work-tag {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 8px;
+    }
+    .work-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 64px;
+    }
+    .work-card {
+      background: #111; border-radius: 12px; overflow: hidden;
+      transition: transform 0.3s; cursor: pointer;
+    }
+    .work-card:hover { transform: translateY(-4px); }
+    .work-card-img { aspect-ratio: 3/4; overflow: hidden; }
+    .work-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .work-card:hover .work-card-img img { transform: scale(1.05); }
+    .work-card-body { padding: 24px; }
+    .work-card-tag {
+      font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .work-card-title {
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;
+      letter-spacing: -0.01em; margin-bottom: 8px;
+    }
+    .work-card-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .featured-case {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center; padding: 80px; background: #111; border-radius: 20px; margin-top: 32px;
+    }
+    .featured-case img { width: 100%; border-radius: 10px; object-fit: cover; }
+    .featured-case h3 { font-family: 'Syne',sans-serif; font-size: 32px; font-weight: 800; letter-spacing:-0.02em; margin-bottom: 16px; }
+    .featured-case p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.5); line-height:1.75; margin-bottom: 28px; }
+    @media(max-width:900px){
+      .work-grid{ grid-template-columns: 1fr 1fr; }
+      .featured-case{ grid-template-columns:1fr; padding: 36px; gap: 32px; }
+    }
+    @media(max-width:560px){ .work-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="section-label">Portfolio</p>
+      <h1>Our Work</h1>
+      <p>Tell your brand's story and connect you with fresh audiences every month.</p>
+      <a href="contact.html" class="btn-primary">Let's grow together →</a>
+    </div>
+  </div>
+
+  <!-- FEATURED CASE STUDY -->
+  <section class="fade-up">
+    <p class="section-label">Featured Project</p>
+    <h2 class="section-title">Pranamat® | Hurts So Good</h2>
+    <div class="featured-case" style="margin-top:40px;">
+      <img src="https://framerusercontent.com/images/P8kop1sl3FRkOgq3mGN8S3GWWNU.png?width=1141" alt="Pranamat campaign" />
+      <div>
+        <p class="work-tag">Influencer Campaign · The Box</p>
+        <h3>Bringing Pranamat to a new generation of wellness buyers</h3>
+        <p>We activated 25 carefully selected wellness and lifestyle influencers, each receiving a beautifully packaged Pranamat set. The simultaneous launch created a wave of authentic unboxing content across Instagram and TikTok, resulting in a major spike in brand awareness and direct sales.</p>
+        <a href="contact.html" class="btn-primary">Request a Case Study →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK GRID -->
+  <section class="fade-up" style="padding-top:0;">
+    <p class="section-label">All Projects</p>
+    <h2 class="section-title">More of Our Work</h2>
+    <div class="work-grid">
+      <div class="work-card">
+        <div class="work-card-img">
+          <img src="https://framerusercontent.com/images/hGFPg0LpyASaz5XNrZZDMCmm6kE.jpg?width=1024" alt="Campaign" />
+        </div>
+        <div class="work-card-body">
+          <p class="work-card-tag">Influencer Marketing</p>
+          <h3 class="work-card-title">Campaign 01</h3>
+          <p class="work-card-desc">Strategic influencer campaign driving brand awareness and engagement.</p>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-img">
+          <img src="https://framerusercontent.com/images/c8QzXHBgbO9JdvA2eibnDRkCnPg.jpg?width=1024" alt="Campaign" />
+        </div>
+        <div class="work-card-body">
+          <p class="work-card-tag">The Box</p>
+          <h3 class="work-card-title">Campaign 02</h3>
+          <p class="work-card-desc">Multi-platform unboxing activation with 25 curated creators.</p>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-card-img">
+          <img src="https://framerusercontent.com/images/e314bE9OJglNpn13Zkw5oNH3Nc.jpg?width=800" alt="Campaign" />
+        </div>
+        <div class="work-card-body">
+          <p class="work-card-tag">Growth Marketing</p>
+          <h3 class="work-card-title">Campaign 03</h3>
+          <p class="work-card-desc">Full-funnel growth strategy from acquisition to retention.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands"></div>
+
+  <!-- CTA -->
+  <div id="ctaBanner"></div>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('brands').innerHTML = BRANDS_HTML;
+    document.getElementById('ctaBanner').innerHTML = CTA_BANNER_HTML;
+    document.getElementById('footer').innerHTML = FOOTER_HTML;
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+  </script>
+</body>
+</html>

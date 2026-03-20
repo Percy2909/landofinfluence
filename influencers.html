@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Influencers — Land of Influence</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .cards-scroll {
+      display: flex; gap: 16px; overflow-x: auto;
+      padding-bottom: 16px; scroll-snap-type: x mandatory;
+    }
+    .cards-scroll::-webkit-scrollbar { height: 4px; }
+    .cards-scroll::-webkit-scrollbar-track { background: #1a1a1a; }
+    .cards-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+    .infl-card {
+      flex-shrink: 0; width: 260px; aspect-ratio: 9/16;
+      border-radius: 12px; overflow: hidden; scroll-snap-align: start;
+    }
+    .infl-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .infl-card:hover img { transform: scale(1.04); }
+    .steps-list { display: flex; flex-direction: column; gap: 2px; margin-top: 64px; }
+    .step-row {
+      display: flex; align-items: flex-start; gap: 32px;
+      padding: 40px; background: #111;
+      border-left: 2px solid transparent;
+      transition: border-color 0.3s, background 0.3s; cursor: default;
+    }
+    .step-row:hover { border-left-color: var(--accent); background: #161616; }
+    .step-num {
+      font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--accent); min-width: 36px; margin-top: 4px;
+    }
+    .step-content h3 {
+      font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700;
+      letter-spacing: -0.01em; margin-bottom: 10px;
+    }
+    .step-content p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 600px; }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="section-label">Our Services</p>
+      <h1>Influencers</h1>
+      <p>We specialize in building partnerships between brands and influencers. Our collaborations are designed to spark genuine engagement, amplify your message, and deliver measurable results.</p>
+      <a href="contact.html" class="btn-primary">Let's have a chat! →</a>
+    </div>
+  </div>
+
+  <!-- STEPS -->
+  <section class="fade-up">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:0;">
+      <div>
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Specialize in building<br>Partnerships between<br>Brands and Influencers</h2>
+      </div>
+    </div>
+    <div class="steps-list">
+      <div class="step-row">
+        <span class="step-num">[01]</span>
+        <div class="step-content">
+          <h3>Strategic Influencer Matching</h3>
+          <p>We carefully select creators who align with your brand values, target audience, and campaign goals.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">[02]</span>
+        <div class="step-content">
+          <h3>Campaign Concept & Management</h3>
+          <p>From idea to execution, we handle campaign strategy, influencer coordination, content briefs, timelines, and reporting.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">[03]</span>
+        <div class="step-content">
+          <h3>Content that Converts</h3>
+          <p>Influencers create authentic, shareable content that resonates with their audiences and extends your brand reach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLLING CARD GALLERY -->
+  <section class="fade-up" style="padding-top:0;">
+    <div class="cards-scroll">
+      <div class="infl-card"><img src="https://framerusercontent.com/images/UzS52k29J6jpQIYZ5X62VhZ7UO8.png?width=848" alt="Influencer content" /></div>
+      <div class="infl-card"><img src="https://framerusercontent.com/images/PnYxT4LE395PE2P9jUMoYokv4.png?width=810" alt="Influencer content" /></div>
+      <div class="infl-card"><img src="https://framerusercontent.com/images/cd1KbTFcMKYAih5y0Dw44nfe7dE.png?width=818" alt="Influencer content" /></div>
+      <div class="infl-card"><img src="https://framerusercontent.com/images/K2PjtaM0QHhKlm8nupAb4KRU.png?width=956" alt="Influencer content" /></div>
+      <div class="infl-card"><img src="https://framerusercontent.com/images/hSNn1ygc72hXGLCzgWr25vjnw.png?width=1020" alt="Influencer content" /></div>
+    </div>
+    <div style="margin-top:48px;text-align:center;">
+      <a href="contact.html" class="btn-primary">Let's grow together →</a>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands"></div>
+
+  <!-- CTA -->
+  <div id="ctaBanner"></div>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('brands').innerHTML = BRANDS_HTML;
+    document.getElementById('ctaBanner').innerHTML = CTA_BANNER_HTML;
+    document.getElementById('footer').innerHTML = FOOTER_HTML;
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+  </script>
+</body>
+</html>

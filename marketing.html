@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketing — Land of Influence</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 64px;
+    }
+    .stat-card {
+      background: #111; padding: 52px 40px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .stat-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0);
+      transform-origin: left; transition: transform 0.4s;
+    }
+    .stat-card:hover { background: #161616; }
+    .stat-card:hover::after { transform: scaleX(1); }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 800; letter-spacing: -0.03em;
+      color: var(--accent); line-height: 1; margin-bottom: 12px;
+    }
+    .stat-label {
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .stat-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .steps-list { display: flex; flex-direction: column; gap: 2px; }
+    .step-row {
+      display: flex; align-items: flex-start; gap: 32px;
+      padding: 40px; background: #111;
+      border-left: 2px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .step-row:hover { border-left-color: var(--accent); background: #161616; }
+    .step-num { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); min-width: 36px; margin-top:4px; }
+    .step-content h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 10px; }
+    .step-content p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 600px; }
+    @media(max-width:900px){ .stat-row{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="section-label">Growth Marketing</p>
+      <h1>Marketing</h1>
+      <p>Our growth marketing approach blends creativity, data, and experimentation to drive measurable business outcomes. We help brands attract the right audiences, convert them into customers, and scale sustainably.</p>
+      <a href="contact.html" class="btn-primary">Let's have a chat! →</a>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <section class="fade-up" style="background:#0d0d0d;">
+    <p class="section-label">Results</p>
+    <h2 class="section-title">Strategies Designed<br>for Scalable Growth</h2>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">3x</div>
+        <div class="stat-label">Average ROI</div>
+        <div class="stat-desc">Campaigns consistently outperform industry benchmarks on return on investment.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">50M+</div>
+        <div class="stat-label">Total Reach</div>
+        <div class="stat-desc">Combined audience reach across all campaigns and brand partnerships.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Campaigns Run</div>
+        <div class="stat-desc">Successful campaigns executed for brands across multiple industries and markets.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="fade-up">
+    <p class="section-label">Our Approach</p>
+    <h2 class="section-title">How We Work</h2>
+    <div class="steps-list" style="margin-top:48px;">
+      <div class="step-row">
+        <span class="step-num">[01]</span>
+        <div class="step-content">
+          <h3>Marketing Intelligence</h3>
+          <p>We analyze your market, customer behavior, and competitive landscape to identify the biggest growth opportunities.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">[02]</span>
+        <div class="step-content">
+          <h3>Full-Funnel Strategy</h3>
+          <p>From acquisition to retention, we design and manage campaigns that move users through the funnel while maximizing ROI.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">[03]</span>
+        <div class="step-content">
+          <h3>E-Commerce</h3>
+          <p>We create authentic, engaging touchpoints across channels that build trust, drive conversions, and fuel long-term customer loyalty.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:56px;">
+      <a href="contact.html" class="btn-primary">Let's grow together →</a>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands"></div>
+
+  <!-- CTA -->
+  <div id="ctaBanner"></div>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('brands').innerHTML = BRANDS_HTML;
+    document.getElementById('ctaBanner').innerHTML = CTA_BANNER_HTML;
+    document.getElementById('footer').innerHTML = FOOTER_HTML;
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Box — Land of Influence</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .box-feature {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: center; margin-bottom: 120px;
+    }
+    .box-feature.reverse { direction: rtl; }
+    .box-feature.reverse > * { direction: ltr; }
+    .box-feature-img { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; }
+    .box-feature-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .box-feature-img:hover img { transform: scale(1.04); }
+    .box-feature-text h2 {
+      font-family: 'Syne', sans-serif; font-size: clamp(28px,3.5vw,44px);
+      font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.1;
+    }
+    .box-feature-text p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 32px; }
+    .influencer-count {
+      display: inline-flex; align-items: center; gap: 16px;
+      background: #111; border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 28px; margin-top: 8px;
+    }
+    .count-num {
+      font-family: 'Syne', sans-serif; font-size: 52px; font-weight: 800;
+      color: var(--accent); letter-spacing: -0.03em; line-height: 1;
+    }
+    .count-label { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.4; }
+    .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: 56px; }
+    .process-step { background: #111; padding: 36px 28px; transition: background 0.3s; }
+    .process-step:hover { background: #161616; }
+    .process-step-num { font-family: 'Syne',sans-serif; font-size: 32px; font-weight: 800; color: var(--accent); letter-spacing:-0.03em; margin-bottom: 16px; }
+    .process-step h3 { font-family: 'Syne',sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+    .process-step p { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.65; }
+    @media(max-width:900px){
+      .box-feature { grid-template-columns:1fr; gap:36px; }
+      .box-feature.reverse { direction: ltr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width:560px){ .process-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="section-label">Signature Service</p>
+      <h1>The Box</h1>
+      <p>We bring your brand to life by showcasing it in The Box, where 25 influencers introduce your product to new audiences with authenticity and impact.</p>
+      <a href="contact.html" class="btn-primary">Get started →</a>
+    </div>
+  </div>
+
+  <!-- WHAT IS THE BOX -->
+  <section class="fade-up">
+    <div class="box-feature">
+      <div class="box-feature-img">
+        <img src="https://framerusercontent.com/images/hGFPg0LpyASaz5XNrZZDMCmm6kE.jpg?width=1024" alt="The Box" />
+      </div>
+      <div class="box-feature-text">
+        <p class="section-label">What Is It</p>
+        <h2>A curated unboxing experience for your brand</h2>
+        <p>The Box is our signature influencer activation format. We curate a beautiful, branded package featuring your product and send it to a carefully selected group of 25 influencers — all at the same time, creating a wave of authentic content across platforms.</p>
+        <div class="influencer-count">
+          <div class="count-num">25</div>
+          <div class="count-label">Influencers<br>per campaign</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-feature reverse">
+      <div class="box-feature-img">
+        <img src="https://framerusercontent.com/images/c8QzXHBgbO9JdvA2eibnDRkCnPg.jpg?width=1024" alt="The Box campaign" />
+      </div>
+      <div class="box-feature-text">
+        <p class="section-label">The Impact</p>
+        <h2>Authentic reach at scale</h2>
+        <p>When 25 creators post about your brand simultaneously, the result is a powerful, coordinated surge of visibility. No paid media feel — just real people sharing real reactions with their loyal audiences.</p>
+        <a href="contact.html" class="btn-primary">Book The Box →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="fade-up" style="background:#0d0d0d;">
+    <p class="section-label">The Process</p>
+    <h2 class="section-title">How The Box Works</h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <h3>Brand Briefing</h3>
+        <p>We learn everything about your brand, product, and target audience.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <h3>Influencer Selection</h3>
+        <p>We handpick 25 creators whose audience aligns perfectly with your brand.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <h3>Box Production</h3>
+        <p>We design and produce a premium branded unboxing experience.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <h3>Launch & Report</h3>
+        <p>Coordinated posting creates a content wave. We track and report all results.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <div id="brands"></div>
+
+  <!-- CTA -->
+  <div id="ctaBanner"></div>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="shared.js"></script>
+  <script>
+    document.getElementById('brands').innerHTML = BRANDS_HTML;
+    document.getElementById('ctaBanner').innerHTML = CTA_BANNER_HTML;
+    document.getElementById('footer').innerHTML = FOOTER_HTML;
+    setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => observer.observe(el)), 50);
+  </script>
+</body>
+</html>
